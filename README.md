@@ -144,7 +144,7 @@ Moving away from passwords to Key Pairs for automation and security.
 Step 1: Generate Keys (On Windows Host)
 Using Git Bash:
 ssh-keygen -t ed25519 -C "my-key"
-# This creates a Public Key (Lock) and Private Key (Key)
+This creates a Public Key (Lock) and Private Key (Key)
 
 Step 2: Copy Public Key to Server
 ssh-copy-id -i ~/.ssh/id_ed25519.pub username@<vm_ip_address>
