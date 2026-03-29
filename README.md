@@ -680,3 +680,123 @@ Vagrant replaces the need to open the VirtualBox application. Everything is done
 - Initialized a default VM.
 - Edited the `Vagrantfile` to configure networking.
 - Successfully booted and SSH'd into the machine purely via CLI.
+
+## Day 18: Advanced Vagrant - Provisioning, Synced Folders & Multi-Machine Setup (Mar 29, 2026)
+
+### 📦 1. Vagrant Boxes (`bento/ubuntu-24.04`)
+- Instead of downloading massive ISO files manually, Vagrant uses pre-packaged environments called "Boxes".
+- **Bento Boxes:** Open-source Vagrant boxes built by Chef. They are highly optimized and minimal.
+- **Command:** `vagrant init bento/ubuntu-24.04`
+
+### 🔄 2. Synced Folders
+Synced folders allow sharing a directory between the Host machine (Windows) and the Guest machine (Linux VM).
+- **Why?** You can write HTML/Code in VS Code on your Windows laptop, and the Apache server inside the Linux VM serves it instantly without manually copying files!
+- **Syntax:** `config.vm.synced_folder "./host_data", "/var/www/html"`
+
+### ⚙️ 3. Hardware Allocation (CPU & RAM)
+By default, Vagrant allocates minimal resources. We can customize this via the VirtualBox provider block.
+
+config.vm.provider "virtualbox" do |vb|
+  vb.memory = "2048"  # Allocate 2GB RAM
+  vb.cpus = 2         # Allocate 2 CPU Cores
+end
+
+### 4. Provisioning (Automating Deployments)
+Provisioners run scripts automatically after the VM boots up for the very first time.
+
+#### A. Inline Shell Provisioning:
+config.vm.provision "shell", inline: <<-SHELL
+  sudo apt-get update
+  sudo apt-get install apache2 -y
+SHELL
+
+#### B. External Script Provisioning (Beat Practice):
+Instead of writing long bash scripts inside the Vagrantfile, we keep them in a separate file (e.g., setup.sh).
+
+config.vm.provision "shell", path: "setup.sh"
+
+### 5. Multi-Machine Setup (Simulating Clusters)
+A single Vagrantfile can spin up an entire network of servers (e.g., a Web Server and a Database Server).
+Vagrant.configure("2") do |config|
+  # Machine 1: Web Server
+  config.vm.define "web" do |web|
+    web.vm.box = "bento/ubuntu-24.04"
+    web.vm.network "private_network", ip: "192.168.56.10"
+  end
+
+  # Machine 2: DB Server
+  config.vm.define "db" do |db|
+    db.vm.box = "bento/ubuntu-24.04"
+    db.vm.network "private_network", ip: "192.168.56.11"
+  end
+end
+
+To start only the web server: vagrant up web
+To start both: vagrant up
+
+## Day 19: Apache2 Deep Dive & Full WordPress Deployment (Mar 29, 2026)
+
+### 🌐 1. Apache2 Web Server Architecture
+We didn't just install Apache; we dissected its entire directory structure in `/etc/apache2/`.
+
+**Core Configuration Files & Directories:**
+- `apache2.conf`: The main configuration file for the server.
+- `envvars`: Holds environment variables for Apache.
+- `security.conf`: Manages server signatures and security headers.
+- `000-default.conf` / `default-ssl.conf`: Default virtual host files for HTTP (80) and HTTPS (443).
+
+**The "Available vs. Enabled" Architecture:**
+Apache uses a brilliant symlink system to enable/disable features without deleting configuration files.
+- `sites-available/` vs `sites-enabled/`: Stores Virtual Host files (different websites on one server).
+- `mods-available/` vs `mods-enabled/`: Stores Apache modules (like `rewrite` or `php`).
+- `conf-available/` vs `conf-enabled/`: Stores global configurations.
+*To enable a site:* `sudo a2ensite mywebsite.conf`
+*To disable a site:* `sudo a2dissite mywebsite.conf` (Followed by `systemctl reload apache2`).
+
+**Server Logs (Crucial for Troubleshooting):**
+Located in `/var/log/apache2/`.
+- `access.log`: Records every HTTP request (IP, Browser, Time).
+- `error.log`: Records server errors, PHP crashes, and missing files (404s).
+
+### 🗄️ 2. Database Configuration (MySQL/MariaDB)
+WordPress requires a database to store content.
+CREATE DATABASE wordpress;
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+FLUSH PRIVILEGES;
+
+### 3. Deploying WordPress
+Followed the official Ubuntu documentation to set up the application layer.
+#### A. Downloading and Structuring
+i.Downloaded the latest tarball using curl.
+ii.Extracted files to the standard directory: /srv/www/wordpress/.
+iii.Set proper ownership: sudo chown -R www-data:www-data /srv/www/wordpress/.
+
+#### B. Automating Configuration with sed:
+Instead of manually editing wp-config.php with vim, we used sed (Stream Editor) to inject the database credentials directly from the command line!
+
+sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
+sed -i 's/username_here/wpuser/' /srv/www/wordpress/wp-config.php
+sed -i 's/password_here/password/' /srv/www/wordpress/wp-config.php
+
+#### C.  Configuring the Apache Virtual Host:
+
+Created /etc/apache2/sites-available/wordpress.conf:
+
+<VirtualHost *:80>
+    DocumentRoot /srv/www/wordpress
+    <Directory /srv/www/wordpress>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+Enabled the site: sudo a2ensite wordpress.conf, disabled the default: sudo a2dissite 000-default.conf, and reloaded Apache.
+
+### 4.  Final Testing & Publishing
+i.Used curl -I http://localhost to verify the HTTP status code (200 OK).
+ii.Browsed to the VM's bridged IP address in the Windows host browser.
+iii.Completed the famous "5-minute WordPress installation" GUI.
+iv.Successfully wrote and published my first blog post!
