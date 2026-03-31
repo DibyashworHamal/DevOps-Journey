@@ -1,17 +1,30 @@
 #!/bin/bash
 
-echo "=========================================="
-echo " Provisioning Database Server (MariaDB)..."
-echo "=========================================="
+ echo "=========================================="
+ echo " Provisioning Database Server (MariaDB)..."
+ echo "=========================================="
 
-# Update package list
-apt-get update -y
+# 1. Update package list
+ apt-get update -y
 
-# Install MariaDB
-apt-get install -y mariadb-server
+# 2. Install MariaDB
+ apt-get install -y mariadb-server
 
-# Ensure MariaDB starts on boot and is running now
-systemctl enable mariadb
-systemctl start mariadb
+# 3. Open the Firewall / Bind Address ( The "sed" Magic)
+# This finds the line starting with "bind-address" and replaces 127.0.0.1 with 0.0.0.0
+
+ sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.conf
+
+# Restart to apply the new network settings
+ systemctl restart mariadb
+
+# 4. Create the database and user (Automated SQL)
+ echo "Setting up Wordpress Database and User..."
+ mysql -e "CREATE DATABASE IF NOT EXISTS wordpress;"
+
+# Notice we restrict the user to only login from the web VM's IP (192.168.56.10)
+ mysql -e "CREATE USER IF NOT EXISTS 'wp_user'@'192.168.56.10' IDENTIFIED BY 'admin123';"
+ mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wp_user'@'192.168.56.10':"
+ mysql -e "FLUSH PRIVILEGES;"
 
 echo "Database Server Provisioning Complete!"
