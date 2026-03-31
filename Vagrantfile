@@ -35,6 +35,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "1024"
       vb.cpus = 1
     end
+    db.vm.provision "shell" , path: "scripts/install_db"
   end
 
 end
