@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "=========================================="
+echo " Provisioning Web Server (Apache only for now)..."
+echo "=========================================="
+
+# Update package list
+apt update -y
+
+# Install Apache2 
+apt install apache2 -y
+
+# Ensure Apache starts on boot and is running now
+systemctl enable apache2
+systemctl start apache2
+systemctl status apache2
+
+# Create a test webpage so we know it worked!
+echo "<h1>Welcome to Dibyashwor's Web Server!</h1><p>Apache and PHP are installed.</p>" > /var/www/html/index.html
+
+echo "Web Server Provisioning Complete!"

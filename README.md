@@ -774,13 +774,13 @@ iii.Set proper ownership: sudo chown -R www-data:www-data /srv/www/wordpress/.
 
 #### B. Automating Configuration with sed:
 Instead of manually editing wp-config.php with vim, we used sed (Stream Editor) to inject the database credentials directly from the command line!
-
+```
 sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
 sed -i 's/username_here/wpuser/' /srv/www/wordpress/wp-config.php
 sed -i 's/password_here/password/' /srv/www/wordpress/wp-config.php
-
+```
 #### C.  Configuring the Apache Virtual Host:
-
+```
 Created /etc/apache2/sites-available/wordpress.conf:
 
 <VirtualHost *:80>
@@ -792,7 +792,7 @@ Created /etc/apache2/sites-available/wordpress.conf:
         Require all granted
     </Directory>
 </VirtualHost>
-
+```
 Enabled the site: sudo a2ensite wordpress.conf, disabled the default: sudo a2dissite 000-default.conf, and reloaded Apache.
 
 ### 4.  Final Testing & Publishing
@@ -822,16 +822,17 @@ Understanding how a file travels from your laptop to GitHub.
 Before committing, Git needs to know who you are.
 
 - **Global Config** (Applies to all repos on your user account):
-
+```
   git config --global user.name "Dibyashwor Hamal"
 
   git config --global user.email "hamaldivyashwor2057@gmail.com"
-  
+  ```
 - **Local Config** (Applies only to the current project)
+```
+git config --local user.name "Project Admin"
 
-  git config --local user.name "Project Admin"
-
-  git config --local user.email "hamaldivyashwor2057@gmail.com"
+git config --local user.email "hamaldivyashwor2057@gmail.com"
+```
 
 - **Check Configs:** git config --list
 
