@@ -1,20 +1,47 @@
 #!/bin/bash
 
-echo "=========================================="
-echo " Provisioning Web Server (Apache + PHP)..."
-echo "=========================================="
+ echo "=========================================="
+ echo " Provisioning Web Server (wordpress)..."
+ echo "=========================================="
 
-# Update package list
-apt-get update -y
+# 1. Update package list
 
-# Install Apache and PHP packages required for WordPress
-apt-get install -y apache2 php libapache2-mod-php php-mysql
+ apt-get update -y
 
-# Ensure Apache starts on boot and is running now
-systemctl enable apache2
-systemctl start apache2
+# 2. Install Apache, PHP packages and tools required for WordPress
 
-# Create a test webpage so we know it worked!
-echo "<h1>Welcome to Dibyashwor's Web Server!</h1><p>Apache and PHP are installed.</p>" > /var/www/html/index.html
+ apt-get install -y apache2 php libapache2-mod-php php-mysql wget tar
+
+# 3. Download and Extract wordpress (Using previous Tar/Gzip Skills!)
+
+ echo "Downloading Wordpress..."
+ wget -q https://wordpress.org/latest.tar.gz tar -xzf latest.tar.gz
+
+# 4. Move files to Apache's public folder
+
+ rm -rf /var/www/html/*
+ cp -r wordpress/* /var/www/htmal/
+
+# 5. Configure Wordpress to talk to the DB VM
+
+ echo "Configuring wp-config.php..."
+ cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
+# Use sed to replace the dummy database details with our actual details
+
+ sed -i 's/database_name_here/wordpress/' /var/www/html/wp-config.php
+ sed -i 's/username_here/wp_user/' /var/www/html/wp-config.php
+ sed -i 's/password_here/admin123/' /var/www/html/wp-config.php
+
+# Change localhost to the DB VM's Private IP
+
+ sed -i 's/localhost/192.168.56.11/' /var/www/html/wp-config.php
+
+# 6. Fix file permissions (Critical for security and uploads)
+
+ chwon -R www-data:www-data /var/www/html/
+ chmod -R 755 /var/www/html/
+
+ systemctl restart apache2
 
 echo "Web Server Provisioning Complete!"
