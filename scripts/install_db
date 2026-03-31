@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "=========================================="
+echo " Provisioning Database Server (MariaDB)..."
+echo "=========================================="
+
+# Update package list
+apt-get update -y
+
+# Install MariaDB
+apt-get install -y mariadb-server
+
+# Ensure MariaDB starts on boot and is running now
+systemctl enable mariadb
+systemctl start mariadb
+
+echo "Database Server Provisioning Complete!"
