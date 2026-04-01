@@ -15,7 +15,8 @@
 # 3. Download and Extract wordpress (Using previous Tar/Gzip Skills!)
 
  echo "Downloading Wordpress..."
- wget -q https://wordpress.org/latest.tar.gz tar -xzf latest.tar.gz
+ wget -q https://wordpress.org/latest.tar.gz 
+ tar -xzf latest.tar.gz
 
 # 4. Move files to Apache's public folder
 
