@@ -10,6 +10,7 @@
 
 # 2. Install Apache, PHP packages and tools required for WordPress
 
+ apt-get install -y mariadb-client
  apt-get install -y apache2 php libapache2-mod-php php-mysql wget tar
 
 # 3. Download and Extract wordpress (Using previous Tar/Gzip Skills!)
@@ -21,7 +22,7 @@
 # 4. Move files to Apache's public folder
 
  rm -rf /var/www/html/*
- cp -r wordpress/* /var/www/htmal/
+ cp -r wordpress/* /var/www/html/
 
 # 5. Configure Wordpress to talk to the DB VM
 
