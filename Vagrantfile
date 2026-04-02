@@ -38,4 +38,22 @@ Vagrant.configure("2") do |config|
     db.vm.provision "shell" , path: "scripts/install_db"
   end
 
+   # ==========================================
+  # VM 3: Vm For Docker Work
+  # ==========================================
+  config.vm.define "dkr" do |dkr|
+    dkr.vm.box = "bento/ubuntu-24.04"
+    dkr.vm.hostname = "dkr-server"
+
+    # Give it a static Private IP
+    dkr.vm.network "private_network", ip: "192.168.56.12"
+
+    # Allocate RAM and CPU
+    dkr.vm.provider "virtualbox" do |vb|
+      vb.name = "dkr_Node"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+
 end
