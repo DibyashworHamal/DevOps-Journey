@@ -948,3 +948,37 @@ Sometimes you don't want to merge a whole branch; you just want ONE specific com
 - **Command:** `git cherry-pick <commit_id>`
 - **Multiple Commits:** `git cherry-pick <id_1> <id_2>`
 - **Cherry-Pick without committing:** `git cherry-pick -n <commit_id>` (Brings the changes into your staging area so you can modify them before committing).
+
+## Day 23: Introduction to Containerization & Docker Architecture (Apr 2, 2026)
+
+### 📦 1. What is Containerization?
+Containerization is the packaging of software code with all its necessary components (libraries, frameworks, and other dependencies) so that it can run consistently on any infrastructure.
+- **The Problem Solved:** Eliminates the "It works on my machine" excuse. 
+
+### 🖥️ 2. Virtual Machines vs. Containers
+Understanding the architectural difference is crucial for resource management.
+
+| Feature | Virtual Machines (VMs) | Containers (Docker) |
+| :--- | :--- | :--- |
+| **Virtualization Level** | Hardware-level (Hypervisor) | OS-level (Container Engine) |
+| **Guest OS** | Every VM needs a full, heavy Guest OS. | Containers share the Host OS Kernel. |
+| **Boot Time** | Minutes | Milliseconds |
+| **Size** | Gigabytes (GBs) | Megabytes (MBs) |
+| **Resource Usage** | Pre-allocated (Wastes RAM/CPU) | Dynamic (Uses only what it needs) |
+
+### 🐳 3. What is Docker & How it Works
+Docker is an open-source platform that automates the deployment, scaling, and management of containerized applications. 
+
+**The Docker Client-Server Architecture:**
+1. **Docker Client:** The CLI (`docker run`, `docker pull`) where we type commands. It uses REST APIs to talk to the Daemon.
+2. **Docker Host (Daemon - `dockerd`):** The background service running on the server that does the heavy lifting (building, running, and distributing containers).
+3. **Docker Registries:** A centralized storage for Docker Images (e.g., **Docker Hub**). The Daemon pulls images from here if they aren't available locally.
+
+### 🧱 4. Core Docker Objects
+- **Images:** A read-only template containing the application, OS libraries, and dependencies. (Think of it as the "Class" in Java).
+- **Containers:** A runnable instance of an Image. It is an isolated, lightweight, and executable package of software. (Think of it as the "Object" instantiated from the Class).
+
+### 🛠️ 5. Practical Implementation
+- Provisioned our Ubuntu 24.04 VM using Vagrant.
+- Installed the Docker Engine (`docker-ce`, `docker-ce-cli`, `containerd.io`).
+- Verified the installation and checked the Docker Daemon status (`systemctl status docker`).
