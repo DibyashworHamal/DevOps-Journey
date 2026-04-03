@@ -1,3 +1,4 @@
 #!/bin/bash
 
+echo "Checking after setting ssh"
 echo "this is my dummy practice project"
