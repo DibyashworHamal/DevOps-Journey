@@ -1,0 +1,56 @@
+## Day 22: Docker Container Lifecycle, Exec & Port Mapping (Apr 3, 2026)
+
+### 🔐 1. Post-Installation Configuration
+By default, Docker requires root privileges. To run Docker commands without typing `sudo` every time, we add our user to the `docker` group.
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker   # Applies the group change immediately without logging out
+docker system info # Verifies Docker is running properly
+```
+
+### 2. The Docker Container Lifecycle Commands
+A container is a running instance of an image. Here is the ultimate cheat sheet for managing them:
+
+| Action| Command | Description |
+| :--- | :--- | :--- |
+| Run | docker container run nginx | Pulls the image (if not local) and starts the container. |
+| List Active | docker ps or docker container ls | Lists currently running containers. |
+| List All | docker ps -a | Lists ALL containers (running + stopped). |
+| Start/Stop | docker container start/stop <id> | Starts a stopped container or gracefully stops a running one. |
+| Kill | docker container kill <id> | Forcefully kills a container (SIGKILL). |
+| Pause/Unpause | docker container pause/unpause <id> | Suspends the container processes. |
+| Remove | docker container rm <id> | Deletes a stopped container. |
+| Prune | docker container prune | ⚠️ Deletes ALL stopped containers to free up space. |
+| Stats & Top | docker container stats / top | Live CPU/RAM usage / Shows running processes inside the container. |
+
+### 3. Attach vs. Detach Mode
+i. Attach Mode (Default): Runs the container in the foreground. If you press Ctrl+C, the container stops.
+ii. Detach Mode (-d): Runs the container in the background. It returns your terminal prompt so you can keep working.
+Example:``` docker container run -d nginx```
+
+### 4. Interacting Inside a Container
+Containers are isolated environments, but we can step inside them or move files in and out.
+i. Execute a Command Inside:
+```
+docker container exec -it <container_id> bash
+```
+(The -it flag stands for Interactive Terminal. This drops you into the container's shell!)
+
+ii. Copy Files (Host ↔ Container):
+```
+docker container cp my_file.txt <container_id>:/opt/  # Host to Container
+docker container cp <container_id>:/etc/nginx/nginx.conf .  # Container to Host
+```
+### 5. Networking & Port Mapping
+Containers have their own isolated network. To access a container from the outside world (like a browser), we must map a port from the Host VM to the Container.
+i.Syntax: ```-p HostPort:ContainerPort```
+Example: ```docker container run -d -p 80:80 nginx```
+(This maps port 80 of your Ubuntu VM to port 80 of the Nginx container).
+ii.Verification:
+On the VM terminal: ```curl localhost:80```
+On the Windows Browser: ```http://<VM_IP_Address>:80```
+
+### 6. Deep Inspection
+i. Inspect: ```docker container inspect <container_id>``` outputs a massive JSON file containing all metadata (IP address, mounts, environment variables) of the container.
+ii. Docker Root Dir: Explored /var/lib/docker/ where the Docker Daemon stores all images, containers, and volumes physically on the VM.

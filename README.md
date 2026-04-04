@@ -366,7 +366,7 @@ Umask determines the *default* permissions for new files/directories.
 | **Change Owner** | `sudo chown dibyashwor:devs file.txt` |
 | **Switch User** | `su - abc` |
 
-## Day 11: Linux Basic Commands & The VIM Editor Deep Dive (Mar 15, 2026)
+## Day 10: Linux Basic Commands & The VIM Editor Deep Dive (Mar 15, 2026)
 
 ### 💻 1. Basic Linux Navigation & File Management
 Today, we mastered moving around the Linux file system purely through the CLI.
@@ -433,7 +433,7 @@ VIM is the most powerful terminal-based text editor. You must rely on the keyboa
 | `:se nonu` | Hide line numbers. |
 | `/text` | Search for "text" in the file (`n` for next, `N` for previous). |
 
-## Day 12: Advanced VIM & Text Processing Power Tools (Mar 16, 2026)
+## Day 11: Advanced VIM & Text Processing Power Tools (Mar 16, 2026)
 
 ### 📄 1. File Viewing & Inspection
 Instead of opening heavy files in an editor, we use these tools to inspect data directly from the terminal.
@@ -483,7 +483,7 @@ A complete text-processing programming language. Great for tabular data.
 ### ⌨️ 4. Advanced VIM
 Continued building muscle memory in VIM, combining text manipulation commands with VIM's internal search (`/`) and replace (`:%s/old/new/g`) functionalities.
 
-## Day 13: File Systems, Links, I/O Redirection & Package Management (Mar 18, 2026)
+## Day 12: File Systems, Links, I/O Redirection & Package Management (Mar 18, 2026)
 
 ### 🔗 1. Inodes and Linux Links
 Every file in Linux has an **Inode** (Index Node). An inode stores metadata about the file (permissions, owner, size) and points to the actual data blocks on the hard drive. *It does not store the file name.*
@@ -538,7 +538,7 @@ Fetches packages from internet repositories. *Automatically resolves and install
 - Remove: `sudo apt remove nginx`
 - Clean up unused dependencies: `sudo apt autoremove`
 
-## Day 15: Sudo, Process Management & Intro to Bash Scripting (Mar 24, 2026)
+## Day 13: Sudo, Process Management & Intro to Bash Scripting (Mar 24, 2026)
 
 ### 🔐 1. Deep Dive into `sudo` and Privilege Escalation
 In enterprise environments, giving users full `root` access is dangerous. We use `sudo` to grant specific administrative privileges.
@@ -576,7 +576,7 @@ Linux loads specific files when a user logs in to set up their environment (alia
 - **`~/.bashrc`:** User-specific configuration. Runs every time the user opens a new terminal.
 - **`/etc/profile`:** System-wide configuration. Applied to ALL users on the system upon login.
 
-## Day 16: Advanced Bash Scripting – Logic, Variables & Loops (Mar 25, 2026)
+## Day 14: Advanced Bash Scripting – Logic, Variables & Loops (Mar 25, 2026)
 
 ### 📥 1. Handling User Input
 Interactive scripts require user input. We use the `read` command.
@@ -644,7 +644,7 @@ while [ $count -le 5 ]; do
     ((count++))
 done
 
-## Day 17: Automated VM Provisioning with Vagrant (Mar 26, 2026)
+## Day 15: Automated VM Provisioning with Vagrant (Mar 26, 2026)
 
 ### 🚀 1. What is Vagrant and Why Do We Need It?
 Before today, we created VMs manually using the VirtualBox GUI. This is slow, non-repeatable, and prone to human error.
@@ -681,7 +681,7 @@ Vagrant replaces the need to open the VirtualBox application. Everything is done
 - Edited the `Vagrantfile` to configure networking.
 - Successfully booted and SSH'd into the machine purely via CLI.
 
-## Day 18: Advanced Vagrant - Provisioning, Synced Folders & Multi-Machine Setup (Mar 29, 2026)
+## Day 16: Advanced Vagrant - Provisioning, Synced Folders & Multi-Machine Setup (Mar 29, 2026)
 
 ### 📦 1. Vagrant Boxes (`bento/ubuntu-24.04`)
 - Instead of downloading massive ISO files manually, Vagrant uses pre-packaged environments called "Boxes".
@@ -734,7 +734,7 @@ end
 To start only the web server: vagrant up web
 To start both: vagrant up
 
-## Day 19: Apache2 Deep Dive & Full WordPress Deployment (Mar 29, 2026)
+## Day 17: Apache2 Deep Dive & Full WordPress Deployment (Mar 29, 2026)
 
 ### 🌐 1. Apache2 Web Server Architecture
 We didn't just install Apache; we dissected its entire directory structure in `/etc/apache2/`.
@@ -801,7 +801,7 @@ ii.Browsed to the VM's bridged IP address in the Windows host browser.
 iii.Completed the famous "5-minute WordPress installation" GUI.
 iv.Successfully wrote and published my first blog post!
 
-## Day 20: Version Control Systems & Git Fundamentals (Mar 30, 2026)
+## Day 18: Version Control Systems & Git Fundamentals (Mar 30, 2026)
 
 ### 📚 1. What is Git & Types of VCS
 Version Control Systems (VCS) track changes to files over time, allowing teams to collaborate and revert to previous versions if something breaks.
@@ -860,7 +860,7 @@ git push -u origin main
 
 (The -u flag sets the upstream, so next time you only need to type git push).
 
-## Day 21: Secure Git Authentication, Log Inspection & Branching Strategies (Mar 31, 2026)
+## Day 19: Secure Git Authentication, Log Inspection & Branching Strategies (Mar 31, 2026)
 
 ### 🔐 1. Secure Authentication (Adding SSH Keys to GitHub)
 Instead of using HTTPS and typing a Personal Access Token (PAT) every time we push, we use SSH Keys for secure, passwordless authentication.
@@ -900,7 +900,7 @@ We discussed how teams collaborate without breaking the main production code.
 - **`develop` branch:** Where all integrated features are tested before going to production.
 - **`feature/xxx` branches:** Created by individual developers to work on a specific task (e.g., `feature/login-page`). Once done, it gets merged into `develop`.
 
-## Day 22: Advanced Git - Rebasing, Stashing, Tagging & Cherry-Picking (Apr 1, 2026)
+## Day 20: Advanced Git - Rebasing, Stashing, Tagging & Cherry-Picking (Apr 1, 2026)
 
 ### 🌿 1. Branching & Merging Strategies
 Best Practice: Never work directly on `main`. Create feature branches, stabilize them, and then integrate them into `main`.
@@ -949,7 +949,7 @@ Sometimes you don't want to merge a whole branch; you just want ONE specific com
 - **Multiple Commits:** `git cherry-pick <id_1> <id_2>`
 - **Cherry-Pick without committing:** `git cherry-pick -n <commit_id>` (Brings the changes into your staging area so you can modify them before committing).
 
-## Day 23: Introduction to Containerization & Docker Architecture (Apr 2, 2026)
+## Day 21: Introduction to Containerization & Docker Architecture (Apr 2, 2026)
 
 ### 📦 1. What is Containerization?
 Containerization is the packaging of software code with all its necessary components (libraries, frameworks, and other dependencies) so that it can run consistently on any infrastructure.
@@ -983,7 +983,7 @@ Docker is an open-source platform that automates the deployment, scaling, and ma
 - Installed the Docker Engine (`docker-ce`, `docker-ce-cli`, `containerd.io`).
 - Verified the installation and checked the Docker Daemon status (`systemctl status docker`).
 
-## Day 24: Docker Container Lifecycle, Exec & Port Mapping (Apr 3, 2026)
+## Day 22: Docker Container Lifecycle, Exec & Port Mapping (Apr 3, 2026)
 
 ### 🔐 1. Post-Installation Configuration
 By default, Docker requires root privileges. To run Docker commands without typing `sudo` every time, we add our user to the `docker` group.

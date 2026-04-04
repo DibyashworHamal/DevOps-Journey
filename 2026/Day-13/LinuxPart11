@@ -1,0 +1,37 @@
+## Day 13: Sudo, Process Management & Intro to Bash Scripting (Mar 24, 2026)
+
+### 🔐 1. Deep Dive into `sudo` and Privilege Escalation
+In enterprise environments, giving users full `root` access is dangerous. We use `sudo` to grant specific administrative privileges.
+- **`visudo`:** The ONLY safe way to edit the `/etc/sudoers` file. It checks for syntax errors before saving. If you edit `/etc/sudoers` with `vim` and make a typo, you could permanently lock yourself out of root!
+- **`/etc/sudoers.d/`:** A directory to place custom sudo rules for specific users/groups without cluttering the main sudoers file. (e.g., granting a developer permission to restart the web server, but nothing else).
+
+### ⚙️ 2. Process and Service Management
+Monitoring server health and finding rogue processes.
+- **`top`:** Real-time, dynamic view of running processes (CPU, RAM usage).
+- **`ps aux` (BSD Syntax):** Shows all processes for all users, with detailed stats (Memory/CPU %).
+- **`ps -ef` (System V Syntax):** Shows all processes with full command-line arguments and Parent Process IDs (PPID). Great for tracing process trees.
+
+### 📜 3. Bash Scripting Fundamentals
+Bash scripting allows us to automate repetitive Linux tasks.
+
+#### **A. The Shebang (`#!/bin/bash`)**
+- Always the first line of a script. It tells the operating system which interpreter to use to execute the file.
+
+#### **B. Execution Security & The "Permission Denied" Trap**
+When you create a new script (`touch script.sh`), Linux restricts execution for security.
+- **Method 1 (Interpreter):** Run it by explicitly calling bash: `bash script.sh` (Bypasses execution permission).
+- **Method 2 (Executable):** Grant execute permission: `chmod +x script.sh`. Then run it natively: `./script.sh`.
+
+#### **C. Variables and Quotes**
+- **Declaration:** `NAME="Dibyashwor"` (No spaces around `=`).
+- **Single Quotes (`'...'`):** Strict/Literal meaning. `echo '$NAME'` outputs `$NAME`.
+- **Double Quotes (`"..."`):** Weak quoting. Evaluates variables inside. `echo "$NAME"` outputs `Dibyashwor`.
+
+#### **D. Essential Scripting Commands**
+- `echo`: Prints text to the terminal.
+- `export`: Exports a variable so it becomes an Environment Variable, making it accessible to child processes and other scripts.
+
+### 🌍 4. Environment Configuration Files
+Linux loads specific files when a user logs in to set up their environment (aliases, paths, variables).
+- **`~/.bashrc`:** User-specific configuration. Runs every time the user opens a new terminal.
+- **`/etc/profile`:** System-wide configuration. Applied to ALL users on the system upon login.
