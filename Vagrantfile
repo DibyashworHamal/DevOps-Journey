@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   # VM 4: Vm For Practice My College Project EBS
   # ============================================
-  config.vm.define "dkr" do |ebs|
+  config.vm.define "ebs" do |ebs|
     ebs.vm.box = "bento/ubuntu-24.04"
     ebs.vm.hostname = "ebs-server"
 
