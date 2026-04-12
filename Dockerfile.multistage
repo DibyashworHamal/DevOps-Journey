@@ -1,0 +1,36 @@
+# ========================================== 
+# STAGE 1: The Kitchen (Build the App) 
+# ========================================== 
+# We use a heavy image that contains Maven and Java 21 JDK 
+FROM maven:3.9-eclipse-temurin-21 AS builder 
+# Set the working directory inside the Kitchen 
+WORKDIR /build/dip 
+# COPY ONLY the pom.xml first. 
+# (DevOps Trick: This caches your internet downloads so future builds 
+are 10x faster!) 
+# (In the world of DevOps and CI/CD, 
+# the mvn dependency:go-offline command is a powerful strategy used 
+to make your software builds faster, 
+# more reliable, and capable of running without an internet connection.) 
+COPY /backend/pom.xml /build/dip 
+RUN mvn dependency:go-offline 
+# Now copy your actual Java source code 
+COPY /backend/ /build/dip 
+# Bake the cake! (Compile the .jar file, skip tests for speed) 
+RUN mvn clean package -DskipTests 
+# ========================================== 
+# STAGE 2: The Dining Room (Run the App) 
+# ========================================== 
+# We use a tiny, lightweight "Alpine" image that ONLY has the Java 21 
+JRE (no Maven!) 
+FROM eclipse-temurin:21-jre-alpine 
+# Set the working directory for the final container 
+WORKDIR /build/dip/hamal 
+# THE MAGIC COMMAND: Copy the finished .jar from the "builder" 
+stage! 
+# Notice we rename it to 'ebs-app.jar' to make it easy to run. 
+COPY --from=builder /build/dip/target/*.jar ebs-app.jar 
+# Expose port 8081 
+EXPOSE 8081 
+# Start the application 
+CMD ["java", "-jar", "ebs-app.jar"]
