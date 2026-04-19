@@ -1,0 +1,18 @@
+FROM node:25.9.0
+ENV PORT=3000
+WORKDIR /var/node
+COPY weather-app/package.json /var/node
+RUN npm install
+COPY weather-app/ /var/node
+
+FROM node:current-alpine3.23
+ENV PORT=3000
+WORKDIR /var/code
+RUN apk add --no-cache curl
+COPY --from=0 /var/node /var/code
+USER node
+EXPOSE $PORT
+ENTRYPOINT ["node"]
+CMD ["bin/www"]
+HEALTHCHECK --interval=1m --timeout=5s \
+   CMD curl -f http://localhost:3000/ || exit 1
