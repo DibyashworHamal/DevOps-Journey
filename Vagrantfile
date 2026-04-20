@@ -74,4 +74,22 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  # ============================================
+  # VM 5: Vm For Jenkins Practice
+  # ============================================
+  config.vm.define "jnkns" do |jnkns|
+    jnkns.vm.box = "bento/ubuntu-24.04"
+    jnkns.vm.hostname = "jenkins-server"
+
+    # Give it a static Private IP
+    jnkns.vm.network "private_network", ip: "192.168.56.14"
+
+    # Allocate RAM and CPU
+     jnkns.vm.provider "virtualbox" do |vb|
+      vb.name = "jenkins_Node"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+
 end
