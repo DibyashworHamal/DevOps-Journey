@@ -92,4 +92,22 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  # ============================================
+  # VM 6: VM For MavenProject Practice
+  # ============================================
+  config.vm.define "mvn" do |mvn|
+    mvn.vm.box = "bento/ubuntu-24.04"
+    mvn.vm.hostname = "mvn-server"
+
+    # Give it a static Private IP
+    mvn.vm.network "private_network", ip: "192.168.56.15"
+
+    # Allocate RAM and CPU
+     mvn.vm.provider "virtualbox" do |vb|
+      vb.name = "mvn_Node"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+
 end
