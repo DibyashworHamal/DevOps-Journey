@@ -105,7 +105,7 @@ Vagrant.configure("2") do |config|
     # Allocate RAM and CPU
      mvn.vm.provider "virtualbox" do |vb|
       vb.name = "mvn_Node"
-      vb.memory = "1024"
+      vb.memory = "2048"
       vb.cpus = 1
     end
   end
