@@ -109,5 +109,23 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
     end
   end
+  
+  # ============================================
+  # VM 7: VM For Multinode Jenkines practice Practice
+  # ============================================
+  config.vm.define "jvmn" do |jvmn|
+    jvmn.vm.box = "bento/ubuntu-24.04"
+    jvmn.vm.hostname = "jvmn-server"
+
+    # Give it a static Private IP
+    jvmn.vm.network "private_network", ip: "192.168.56.16"
+
+    # Allocate RAM and CPU
+     jvmn.vm.provider "virtualbox" do |vb|
+      vb.name = "jvmn_Node"
+      vb.memory = "2048"
+      vb.cpus = 1
+    end
+  end
 
 end
