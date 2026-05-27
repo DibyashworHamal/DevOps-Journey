@@ -49,3 +49,6 @@ git add .
 git commit -m "Initial commit to AWS CodeCommit"
 git push origin master
 ```
+**Step 4: Verification**
+- Refreshed the AWS CodeCommit Console.
+- Successfully verified that the index.html file and commit history were securely hosted inside the AWS cloud!
