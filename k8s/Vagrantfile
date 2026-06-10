@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+
+  # ==========================================
+  # VM for kubernetes work
+  # ==========================================
+  config.vm.define "k8s" do |k8s|
+    k8s.vm.box = "bento/ubuntu-24.04"
+    k8s.vm.hostname = "k8s-server"
+
+    # Give it a static Private IP so the DB can talk to it
+    k8s.vm.network "private_network", ip: "192.168.56.40"
+
+    # Allocate RAM and CPU
+    k8s.vm.provider "virtualbox" do |vb|
+      vb.name = "k8s_Node"
+      vb.memory = "3072"
+      vb.cpus = 2
+    end
+   end
+
