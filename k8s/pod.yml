@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: mynginx
-      image: nginx:1.14.2
+      image: nginx:1.28
       ports:
       - containerPort: 80
