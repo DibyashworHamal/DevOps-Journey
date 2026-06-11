@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ebs-monolith
+  labels:
+    app: java-app-project
+    type: monolith
+spec:
+  containers:
+  - name: java-container
+    image: harbor.registry.local/devops_learning/ebs-monolith:v1.0.0
+    ports:
+    - containerPort: 8080
+
+  # THE MAGIC KEY: Tell K8s to use the secret we just created!
+  imagePullSecrets:
+  - name: harbor-login
