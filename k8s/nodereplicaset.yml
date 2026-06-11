@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nodeapp
+  labels:
+    type: frontend
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: frontend
+  template:
+    metadata:
+      labels:
+        type: frontend
+    spec:
+      containers:
+      - name: mynodeapp
+        image: harbor.registry.local/jenkinsprojects1/nodeapp:8
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: harbor-login
+
