@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-web-service
+spec:
+  type: NodePort            # We use NodePort so we can test it on Minikube
+  selector:
+    app: frontend         # THE MAGIC RADAR: Must match your Deployment's labels!
+  ports:
+    - port: 80              # The port the Service listens on
+      targetPort: 80        # The port your container is actually using inside the Pod
+      nodePort: 30080       # The public port we are opening on Minikube (must be 30000+)
