@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  
+  config.vm.define "p8s" do |p8s|
+    p8s.vm.box = "bento/ubuntu-24.04"
+    p8s.vm.hostname = "p8s-server"
+
+    # Give it a static Private IP so the DB can talk to it
+    p8s.vm.network "private_network", ip: "192.168.56.31"
+
+    # Allocate RAM and CPU
+    p8s.vm.provider "virtualbox" do |vb|
+      vb.name = "p8s_Node"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
+end
