@@ -14,4 +14,18 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
     end
   end
+  config.vm.define "exporter" do |exporter|
+    exporter.vm.box = "bento/ubuntu-24.04"
+    exporter.vm.hostname = "nodexporter-server"
+
+    # Give it a static Private IP so the DB can talk to it
+    exporter.vm.network "private_network", ip: "192.168.56.32"
+
+    # Allocate RAM and CPU
+    exporter.vm.provider "virtualbox" do |vb|
+      vb.name = "exporter_Node"
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+  end
 end
