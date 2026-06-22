@@ -1,4 +1,5 @@
 # Prometheus configuration file for monitoring Docker Engine metrics
+scrape_configs:
 - job_name: "docker-engine"
     static_configs:
       - targets: ["192.168.56.12:9323"] // Replace with your Docker Engines' IP and port
