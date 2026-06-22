@@ -1,0 +1,20 @@
+# cAdvisor Docker Compose file
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    privileged: true
+    restart: unless-stopped
+
+    devices:
+      - /dev/kmsg:/dev/kmsg
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+      - /sys:/sys:ro
+
+    ports:
+      - "8080:8080"
