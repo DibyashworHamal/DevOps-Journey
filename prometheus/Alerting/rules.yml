@@ -1,0 +1,30 @@
+groups:
+  - name: my-alerts
+    interval: 15s
+    rules:
+      - alert: NodeDown
+        expr: up{job="node-exporter-vm1"} == 0
+        for: 2m
+        labels:
+          team: monitoring
+          env: prod
+        annotations:
+          message: "instance {{.Labels.instance}} is currently down"
+
+      - alert: DockerEngineDown
+        expr: up{job="docker-engine"} == 0
+        for: 1m
+        labels:
+          team: DevOps
+          env: prod
+        annotations:
+          message: "{{.Labels.instance}} is currently down"
+
+      - alert: CAdvisorDowm
+        expr: up{job="containerAdvisor"} == 0
+        for: 0m
+        labels:
+          team: container
+          env: prod
+        annotations:
+          message: "instance {{.Labels.instance}} is currently down"
