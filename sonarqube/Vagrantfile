@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  
+  config.vm.define "sonarq" do |sonarq|
+    sonarq.vm.box = "bento/ubuntu-24.04"
+    sonarq.vm.hostname = "sonarq-server"
+
+    # Give it a static Private IP so the DB can talk to it
+    sonarq.vm.network "private_network", ip: "192.168.56.65"
+
+    # Allocate RAM and CPU
+    sonarq.vm.provider "virtualbox" do |vb|
+      vb.name = "sonarq_Node"
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+end
