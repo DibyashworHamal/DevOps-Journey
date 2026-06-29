@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
     # Allocate RAM and CPU
     dkr.vm.provider "virtualbox" do |vb|
       vb.name = "dkr_Node"
-      vb.memory = "1024"
+      vb.memory = "1536"
       vb.cpus = 1
     end
   end
